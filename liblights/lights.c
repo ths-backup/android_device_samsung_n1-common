@@ -75,7 +75,7 @@ static int write_int(char const *path, int value)
         return amt == -1 ? -errno : 0;
     } else {
         if (already_warned == 0) {
-            LOGE("write_int failed to open %s, %s\n", path, strerror(errno));
+            ALOGE("write_int failed to open %s, %s\n", path, strerror(errno));
             already_warned = 1;
         }
         return -errno;
@@ -104,7 +104,7 @@ static int set_light_backlight(struct light_device_t *dev,
     int brightness = rgb_to_brightness(state);
 
     pthread_mutex_lock(&g_lock);
-    LOGV("%s(%d)", __FUNCTION__, brightness);
+    ALOGV("%s(%d)", __FUNCTION__, brightness);
     err = write_int(PANEL_FILE, brightness);
     pthread_mutex_unlock(&g_lock);
 
@@ -116,12 +116,12 @@ static int set_light_buttons(struct light_device_t *dev,
 {
     int err = 0;
     int brightness = rgb_to_brightness(state);
-    /* Hack for stock Samsung roms. */
+    /* Hack for stock Samsung roms */
     if(brightness != 0)
 	brightness = 255;
 
     pthread_mutex_lock(&g_lock);
-    LOGV("%s(%d)", __FUNCTION__, brightness);
+    ALOGV("%s(%d)", __FUNCTION__, brightness);
     err = write_int(BUTTON_FILE, brightness);
     pthread_mutex_unlock(&g_lock);
 
@@ -136,7 +136,7 @@ static int set_light_keyboard(struct light_device_t* dev,
     int on = is_lit (state);
 
     pthread_mutex_lock(&g_lock);
-    LOGV("%s(%d)", __FUNCTION__, on);
+    ALOGV("%s(%d)", __FUNCTION__, on);
     err = write_int(KEYBOARD_FILE, on ? 1 : 0);
     pthread_mutex_unlock(&g_lock);
 
@@ -146,14 +146,14 @@ static int set_light_keyboard(struct light_device_t* dev,
 
 static int close_lights(struct light_device_t *dev)
 {
-    LOGV("%s", __FUNCTION__);
+    ALOGV("%s", __FUNCTION__);
     if (dev)
         free(dev);
 
     return 0;
 }
 
-/* LED functions. */
+/* LED functions */
 static int set_light_leds_notifications(struct light_device_t *dev,
             struct light_state_t const *state)
 {
@@ -164,10 +164,10 @@ static int set_light_leds_notifications(struct light_device_t *dev,
     	pthread_mutex_lock(&g_lock);
 
     	if (state->color & 0x00ffffff) {
-    		LOGV("[LED Notify] set_light_leds_notifications - ENABLE_BL\n");
+    		ALOGV("[LED Notify] set_light_leds_notifications - ENABLE_BL\n");
             	err = write_int (NOTIFICATION_FILE_BLN, ENABLE_BL);
     	} else {
-    		LOGV("[LED Notify] set_light_leds_notifications - DISABLE_BL\n");
+    		ALOGV("[LED Notify] set_light_leds_notifications - DISABLE_BL\n");
     		err = write_int (NOTIFICATION_FILE_BLN, DISABLE_BL);
     	}
         pthread_mutex_unlock(&g_lock);
