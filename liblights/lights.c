@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+
 #define LOG_TAG "lights"
 //#define LOG_NDEBUG 0
 
@@ -45,10 +46,11 @@ static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
 
 char const*const PANEL_FILE = "/sys/class/backlight/pwm-backlight/brightness";
-#if defined(I9103)
-char const*const BUTTON_FILE = "/sys/class/leds/button-backlight/brightness";
-#elseif defined(I927)
-char const*const BUTTON_FILE = "/sys/class/misc/melfas_touchkey/brightness";
+#if defined (I9103)
+char const*const BUTTON_FILE = "/sys/class/leds/button-backlight/brightness"; // For Galaxy R
+#else if defined (I927)
+char const*const BUTTON_FILE = "/sys/class/misc/melfas_touchkey/brightness"; // For Captivate Glide
+char const*const KEYBOARD_FILE = "/sys/class/sec/sec_stmpe_bl/backlight";
 #endif
 char const*const NOTIFICATION_FILE_BLN = "/sys/class/misc/backlightnotification/notification_led";
 
@@ -73,12 +75,19 @@ static int write_int(char const *path, int value)
         return amt == -1 ? -errno : 0;
     } else {
         if (already_warned == 0) {
-            ALOGE("write_int failed to open %s, %s\n", path, strerror(errno));
+            LOGE("write_int failed to open %s, %s\n", path, strerror(errno));
             already_warned = 1;
         }
         return -errno;
     }
 }
+
+#if defined (I927)
+static int is_lit(struct light_state_t const* state)
+{
+    return state->color & 0x00ffffff;
+}
+#endif
 
 static int rgb_to_brightness(struct light_state_t const *state)
 {
@@ -95,7 +104,7 @@ static int set_light_backlight(struct light_device_t *dev,
     int brightness = rgb_to_brightness(state);
 
     pthread_mutex_lock(&g_lock);
-    ALOGV("%s(%d)", __FUNCTION__, brightness);
+    LOGV("%s(%d)", __FUNCTION__, brightness);
     err = write_int(PANEL_FILE, brightness);
     pthread_mutex_unlock(&g_lock);
 
@@ -107,28 +116,44 @@ static int set_light_buttons(struct light_device_t *dev,
 {
     int err = 0;
     int brightness = rgb_to_brightness(state);
-    /* Hack for stock Samsung roms */
+    /* Hack for stock Samsung roms. */
     if(brightness != 0)
 	brightness = 255;
 
     pthread_mutex_lock(&g_lock);
-    ALOGV("%s(%d)", __FUNCTION__, brightness);
+    LOGV("%s(%d)", __FUNCTION__, brightness);
     err = write_int(BUTTON_FILE, brightness);
     pthread_mutex_unlock(&g_lock);
 
     return err;
 }
 
+#if defined (I927)
+static int set_light_keyboard(struct light_device_t* dev,
+        struct light_state_t const* state)
+{
+    int err = 0;
+    int on = is_lit (state);
+
+    pthread_mutex_lock(&g_lock);
+    LOGV("%s(%d)", __FUNCTION__, on);
+    err = write_int(KEYBOARD_FILE, on ? 1 : 0);
+    pthread_mutex_unlock(&g_lock);
+
+    return err;
+}
+#endif
+
 static int close_lights(struct light_device_t *dev)
 {
-    ALOGV("%s", __FUNCTION__);
+    LOGV("%s", __FUNCTION__);
     if (dev)
         free(dev);
 
     return 0;
 }
 
-/* LED functions */
+/* LED functions. */
 static int set_light_leds_notifications(struct light_device_t *dev,
             struct light_state_t const *state)
 {
@@ -139,10 +164,10 @@ static int set_light_leds_notifications(struct light_device_t *dev,
     	pthread_mutex_lock(&g_lock);
 
     	if (state->color & 0x00ffffff) {
-    		ALOGV("[LED Notify] set_light_leds_notifications - ENABLE_BL\n");
+    		LOGV("[LED Notify] set_light_leds_notifications - ENABLE_BL\n");
             	err = write_int (NOTIFICATION_FILE_BLN, ENABLE_BL);
     	} else {
-    		ALOGV("[LED Notify] set_light_leds_notifications - DISABLE_BL\n");
+    		LOGV("[LED Notify] set_light_leds_notifications - DISABLE_BL\n");
     		err = write_int (NOTIFICATION_FILE_BLN, DISABLE_BL);
     	}
         pthread_mutex_unlock(&g_lock);
@@ -179,6 +204,10 @@ static int open_lights(const struct hw_module_t *module, char const *name,
         set_light = set_light_leds_attention;
     else if (0 == strcmp(LIGHT_ID_BATTERY, name))
         set_light = set_light_battery;
+#if defined (I927)
+    else if (0 == strcmp(LIGHT_ID_KEYBOARD, name))
+        set_light = set_light_keyboard;
+#endif
     else
         return -EINVAL;
 
