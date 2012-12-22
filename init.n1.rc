@@ -231,20 +231,20 @@ on boot
 #    write /sys/block/mmcblk1/queue/read_ahead_kb 2048
 
 # GPS
-  chown root system /dev/ttyHS0
-  chmod 0664 /dev/ttyHS0
+    chown root system /dev/ttyHS0
+    chmod 0664 /dev/ttyHS0
 
-  mkdir /data/gps 0771 system system
-  chown system system /data/gps
-	
-  chmod 0664 /sys/class/sec/gps/GPS_PWR_EN/value
-  chown root system /sys/class/sec/gps/GPS_PWR_EN/value
-  
-  chmod 0664 /sys/class/sec/gps/GPS_nRST/value
-  chown root system /sys/class/sec/gps/GPS_nRST/value
+    mkdir /data/gps 0771 system system
+    chown system system /data/gps
+
+    chmod 0664 /sys/class/sec/gps/GPS_PWR_EN/value
+    chown root system /sys/class/sec/gps/GPS_PWR_EN/value
+
+    chmod 0664 /sys/class/sec/gps/GPS_nRST/value
+    chown root system /sys/class/sec/gps/GPS_nRST/value
 
 # ko files for FM Radio
-    insmod /lib/modules/Si4709_driver.ko
+    insmod /system/lib/modules/Si4709_driver.ko
 
 # Vibetonz
     chmod 0660 /dev/tspdrv
