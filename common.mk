@@ -39,7 +39,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/lpm.rc:root/lpm.rc \
     $(COMMON_PATH)/init.n1.rc:root/init.n1.rc \
-    $(COMMON_PATH)/init.n1.usb.rc:root/init.n1.usb.rc 
+    $(COMMON_PATH)/init.n1.usb.rc:root/init.n1.usb.rc \
+    $(COMMON_PATH)/ueventd.n1.rc:root/ueventd.n1.rc
 
 # Vold and Storage
 PRODUCT_COPY_FILES += \
