@@ -1,4 +1,3 @@
-sbin/cbd
 system/bin/bintvoutservice
 system/bin/brcm_patchram_plus
 system/bin/nvcpud
