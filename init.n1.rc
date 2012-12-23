@@ -411,6 +411,7 @@ service bugreport /system/bin/dumpstate -d -v -o /data/storage/bugreports/bugrep
 #BCM
 service hciattach /system/bin/brcm_patchram_plus --enable_hci --scopcm=0,2,0,0,0,0,0,0,0,0 --i2s=1,0,0,1 \
     --baudrate 3000000 --patchram /system/etc/firmware/bcm4330.hcd --enable_lpm --tosleep=5000 /dev/ttyHS2
+    class main
     user bluetooth
     group bluetooth net_bt_admin
     disabled
