@@ -26,6 +26,7 @@ NEED_WORKAROUND_CORTEX_A9_745320 := true
 # DO NOT change the following line to vfpv3 as it is not really supported on our device!
 TARGET_ARCH_VARIANT_FPU := vfpv3-d16
 ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_USE_NON_NEON_MEMCPY := true
 
 #TARGET_HAVE_TEGRA_ERRATA_657451 := true
 TARGET_BOARD_PLATFORM := tegra

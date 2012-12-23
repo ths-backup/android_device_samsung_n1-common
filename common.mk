@@ -18,6 +18,13 @@ COMMON_PATH := device/samsung/n1-common
 
 DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
 
+# Packages
+PRODUCT_PACKAGES := \
+    libsurfaceflinger_client \
+    com.android.future.usb.accessory \
+    SamsungServiceMode \
+    Torch
+
 # Charger
 PRODUCT_PACKAGES += \
     charger \

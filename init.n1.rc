@@ -433,10 +433,3 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
     write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
     write /sys/module/cpuidle/parameters/lp2_in_idle 1
-
-# Vibetonz
-service immvibed /system/bin/immvibed
-    class core
-    user shell
-    group shell
-    oneshot

@@ -167,9 +167,6 @@
 
     <!-- XXXXXX END OF RESOURCES USING WRONG NAMING CONVENTION -->
 
-    <!-- The number of degrees to rotate the display when the keyboard is open. -->
-    <integer name="config_lidOpenRotation">-1</integer>
-
     <!-- The number of degrees to rotate the display when the device is in a desk dock.
          A value of -1 means no change in orientation by default. -->
     <integer name="config_deskDockRotation">-1</integer>
@@ -195,18 +192,6 @@
          screen orientation.  This defaults to true because putting a device in
          a car dock make the accelerometer more a physical input (like a lid). -->
     <bool name="config_carDockEnablesAccelerometer">true</bool>
-
-    <!-- Indicate whether the lid state impacts the accessibility of
-         the physical keyboard.  0 means it doesn't, 1 means it is accessible
-         when the lid is open, 2 means it is accessible when the lid is
-         closed.  The default is 1. -->
-    <integer name="config_lidKeyboardAccessibility">1</integer>
-
-    <!-- Indicate whether the lid state impacts the accessibility of
-         the physical keyboard.  0 means it doesn't, 1 means it is accessible
-         when the lid is open, 2 means it is accessible when the lid is
-         closed.  The default is 0. -->
-    <integer name="config_lidNavigationAccessibility">1</integer>
 
     <!-- Indicate whether the SD card is accessible without removing the battery. -->
     <bool name="config_batterySdCardAccessibility">false</bool>
@@ -336,7 +321,7 @@
 
     <!-- Component name of the default wallpaper. This will be ImageWallpaper if not
          specified -->
-    <string name="default_wallpaper_component">@null</string>
+    <string name="default_wallpaper_component">com.android.phasebeam/.PhaseBeamWallpaper</string>
 
     <!-- Boolean indicating if current platform supports bluetooth SCO for off call
     use cases -->
@@ -404,5 +389,11 @@
          when the lid is open, 2 means it is accessible when the lid is
          closed.  The default is 0. -->
     <integer name="config_lidKeyboardAccessibility">1</integer>
+
+    <!-- Indicate whether the lid state impacts the accessibility of
+         the physical keyboard.  0 means it doesn't, 1 means it is accessible
+         when the lid is open, 2 means it is accessible when the lid is
+         closed.  The default is 0. -->
+    <integer name="config_lidNavigationAccessibility">1</integer>
 
 </resources>
