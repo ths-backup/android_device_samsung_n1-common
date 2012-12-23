@@ -96,6 +96,7 @@ WIFI_DRIVER_MODULE_NAME     	 := "dhd"
 WIFI_DRIVER_MODULE_ARG      	 := "firmware_path=/system/etc/wifi/bcm4330_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_BAND                        := 802_11_ABG
 BOARD_LEGACY_NL80211_STA_EVENTS  := true
+BOARD_HAVE_SAMSUNG_WIFI          := true
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 12
