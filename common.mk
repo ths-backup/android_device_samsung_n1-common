@@ -152,7 +152,7 @@ PRODUCT_COPY_FILES += \
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=Smdk4210RIL \
-    mobiledata.interfaces=rmnet0,rmnet1,rmnet2,wlan0
+    mobiledata.interfaces=rmnet0,rmnet1,rmnet2
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
