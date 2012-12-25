@@ -541,10 +541,10 @@ status_t AudioHardware::setParameters(const String8& keyValuePairs)
     key = String8(NOISE_SUPPRESSION_KEY);
     if (param.get(key, value) == NO_ERROR) {
         if (value == NOISE_SUPPRESSION_VALUE_TRUE) {
-            ALOGD("%s: enabling two mic control", __func__);
+            ALOGD("Enabling two mic control");
             setTwoMicControl(mRilClient, AUDIENCE, TWO_MIC_SOLUTION_ON);
         } else if (value == NOISE_SUPPRESSION_VALUE_FALSE) {
-            ALOGD("%s: disabling two mic control", __func__);
+            ALOGD("Disabling two mic control");
             setTwoMicControl(mRilClient, AUDIENCE, TWO_MIC_SOLUTION_OFF);
         } else {
             return BAD_VALUE;
